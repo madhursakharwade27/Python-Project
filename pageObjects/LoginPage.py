@@ -18,48 +18,6 @@
 #
 #     def clickLogin(self):
 #         self.driver.find_element_by_xpath(self.button_login_xpath).click()
-#
-#
-#
-#
-# class LoginPage:
-#     def __init__(self, driver):
-#         self.driver = driver
-#         self.textbox_username_id = "username"  # Replace with your actual ID for username field
-#         self.textbox_password_id = "password"  # Replace with your actual ID for password field
-#         self.button_login_id = "//input[@id='kc-login']"        # Replace with your actual ID for login button
-#
-#     def setUserName(self, username):
-#         self.driver.find_element_by_id(self.textbox_username_id).clear()
-#         self.driver.find_element_by_id(self.textbox_username_id).send_keys(username)
-#
-#     def setPassword(self, password):
-#         self.driver.find_element_by_id(self.textbox_password_id).clear()
-#         self.driver.find_element_by_id(self.textbox_password_id).send_keys(password)
-#
-#     def clickLogin(self):
-#         self.driver.find_element_by_id(self.button_login_id).click()
-
-
-#
-# class LoginPage:
-#     def __init__(self, driver):
-#         self.driver = driver
-#         self.textbox_username_id = "username"  # Replace with your actual ID for username field
-#         self.textbox_password_id = "password"  # Replace with your actual ID for password field
-#         self.button_login_id = "kc-login"  # Replace with your actual ID for login button
-#
-#     def setUserName(self, username):
-#         self.driver.find_element_by_id(self.textbox_username_id).clear()
-#         self.driver.find_element_by_id(self.textbox_username_id).send_keys(username)
-#
-#     def setPassword(self, password):
-#         self.driver.find_element_by_id(self.textbox_password_id).clear()
-#         self.driver.find_element_by_id(self.textbox_password_id).send_keys(password)
-#
-#     def clickLogin(self):
-#         self.driver.find_element_by_id(self.button_login_id).click()
-
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -68,6 +26,7 @@ from selenium.webdriver.support import expected_conditions as EC
 class LoginPage:
     def __init__(self, driver):
         self.driver = driver
+
         self.textbox_username_id = "username"  # Replace with your actual ID for username field
         self.textbox_password_id = "password"  # Replace with your actual ID for password field
         self.button_login_id = "kc-login"  # Replace with your actual ID for login button
