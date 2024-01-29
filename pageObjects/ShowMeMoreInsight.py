@@ -5,8 +5,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
 class ShowMeMore:
-
-
     First_RecruitCardShowMeMore_tab = "//*[@id='chart-3515']/div/div/div[3]/div/button/strong"
     First_RecruitCardShowMeMoreInsightClosed = "//div[@class='mat-drawer-title']//i[@class='mdi mdi-close']"
     First_RecruitCardShowMeMoreInsightCardQuestionOnTopOfChildChart = "//*[@id='topContainer']/mat-drawer-container/mat-drawer-content/div[2]/app-dashboard-v2/mat-drawer-container/mat-drawer/div/div/div/span"

@@ -27,9 +27,13 @@ class LoginPage:
     def __init__(self, driver):
         self.driver = driver
 
-        self.textbox_username_id = "username"  # Replace with your actual ID for username field
-        self.textbox_password_id = "password"  # Replace with your actual ID for password field
-        self.button_login_id = "kc-login"  # Replace with your actual ID for login button
+        self.textbox_username_id = "username"
+        self.textbox_password_id = "password"
+        self.button_login_id = "kc-login"
+        self.user_icon = "//i[@class='icon-ui user']"
+        self.user_logout = "//a[normalize-space()='Logout']"
+        self.user_logout_confirmation = "//button[normalize-space()='YES, LOGOUT']"
+
 
     def setUserName(self, username):
         WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.ID, self.textbox_username_id))).clear()
@@ -41,3 +45,15 @@ class LoginPage:
 
     def clickLogin(self):
         WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.ID, self.button_login_id))).click()
+
+    def usericon(self):
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.user_icon))).click()
+
+
+    def userlogout(self):
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.user_logout))).click()
+
+
+    def userlogoutconfirmation(self):
+        WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((By.XPATH, self.user_logout_confirmation))).click()
+

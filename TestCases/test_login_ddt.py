@@ -38,17 +38,29 @@ class Test_002_DDT_Login:
             self.lp.setUserName(self.username)
             self.lp.setPassword(self.password)
             self.lp.clickLogin()
-            time.sleep(5)
+            self.driver.implicitly_wait(10)
+
 
             act_tile = self.driver.title
             exp_title = "Analytics"
 
+            # if act_tile == exp_title:
+            #     print("label as per expected")
+            #
+            # self.driver.quit()
+
             if act_tile == exp_title:
                 if self.exp == "pass":
                     self.logger.info("***Test is passed ***")
+                    self.lp.usericon()
+                    self.lp.userlogout()
+                    self.lp.userlogoutconfirmation()
                     list_status.append("pass")
                 elif self.exp == "Fail":
                     self.logger.info("*** Test is Failed ***")
+                    self.lp.usericon()
+                    self.lp.userlogout()
+                    self.lp.userlogoutconfirmation()
                     list_status.append("Fail")
 
             elif act_tile != exp_title:
