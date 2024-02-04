@@ -3,9 +3,29 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
+from Utilities.customLogger import LogGen
+import time
 
-class ShowMeMore:
+class HowManyOpenJobsInTheCompany:
 
+    ClickOn_DashboardDropdown = "//mat-select[@id='mat-select-0']//div[@class='mat-select-arrow-wrapper']"
+    Dashboards_dropdown_AllDashboard_text = "//*[starts-with(@id,'mat-option-')]"
+
+    First_RecruitCardHeaderClickOnThreeDot = "//app-card-v2[@id='chart-3515']//mat-icon[@role='img']"
+    First_RecruitCardClickViewAsTable = "//span[normalize-space()='View As Table']"
+    First_RecruitCardClickViewAsChart = "//span[normalize-space()='View As Chart']"
+
+    First_RecruitCardHeader = "//app-card-v2[@id='chart-3515']//h2[contains(text(),'Recruitment')]"
+    First_RecruitCardQuestion = "//h2[normalize-space()='How many open jobs are there in the company?']"
+    First_RC_CardQuestion_Info_Icon = "//*[@id='chart-3515']/div/div/div[2]/div[1]/h2/span/i"
+
+    First_RecruitCardIsThisHelpfulYes = "//app-card-v2[@id='chart-3515']//strong[contains(text(),'Yes')]"
+    First_RecruitCardIsThisHelpfulYes_radio = "//label[@for='mat-radio-2-input']//div[@class='mat-radio-inner-circle']"
+    First_RecruitCardIsThisHelpfulNo = "//app-card-v2[@id='chart-3515']//strong[contains(text(),'No')]"
+    First_RecruitCardIsThisHelpfulNo_radio = "//label[@for='mat-radio-3-input']//div[@class='mat-radio-inner-circle']"
+    First_RecruitCardIsThisHelpfulMSG = "//textarea[@id='mat-input-0']"
+    First_RecruitCardIsThisHelpfulSubmit = "//button[normalize-space()='SUBMIT']"
+    First_RecruitCardIsThisHelpfulCancel = "//button[normalize-space()='CANCEL']"
 
     First_RecruitCardShowMeMore_tab = "//*[@id='chart-3515']/div/div/div[3]/div/button/strong"
     First_RecruitCardShowMeMoreInsightClosed = "//div[@class='mat-drawer-title']//i[@class='mdi mdi-close']"
@@ -40,7 +60,156 @@ class ShowMeMore:
 
 
     def __init__(self, driver):
+        self.logger = LogGen.loggen()
         self.driver = driver
+
+
+
+    def Click_On_Dashboard_Dropdown(self):
+        Dashboard_Dropdown = WebDriverWait(self.driver,20).until(
+            EC.element_to_be_clickable((By.XPATH,self.ClickOn_DashboardDropdown))
+        )
+        Dashboard_Dropdown.click()
+
+    def All_Dashobard_text_from_Home_Dashobard_dropdown(self):
+        AllDashobard = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_all_elements_located((By.XPATH, self.Dashboards_dropdown_AllDashboard_text))
+        )
+        return AllDashobard
+
+    def Select_Personalized_for_you_from_Home_dropdown(self):
+        self.Click_On_Dashboard_Dropdown()
+        time.sleep(3)
+        elements = self.All_Dashobard_text_from_Home_Dashobard_dropdown()
+        for element in elements:
+            if element.text == "Personalized for you":
+                element.click()
+                self.logger.info("******* click on personalized for you successfully ...******")
+                self.logger.info("Now breaking the loop i got my requirement")
+                break
+        else:
+            print("Personalized for you not found")
+            self.logger.error("***** personalized for you not found *******")
+
+
+    def click_on_three_dot(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardHeaderClickOnThreeDot))
+        )
+        element.click()
+
+    def click_on_three_dot_again(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardHeaderClickOnThreeDot))
+        )
+        element.click()
+
+    def click_on_view_table(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardClickViewAsTable))
+        )
+        element.click()
+
+    def click_on_view_chart(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardClickViewAsChart))
+        )
+        element.click()
+
+    def is_three_dot_visible(self):
+        try:
+            WebDriverWait(self.driver, 10).until(
+                EC.visibility_of_element_located((By.XPATH, self.First_RecruitCardHeaderClickOnThreeDot))
+            )
+            return True
+        except:
+            return False
+
+    def is_view_table_visible(self):
+        try:
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, self.First_RecruitCardClickViewAsTable))
+            )
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            return element.is_displayed()
+        except:
+            return False
+
+    def is_view_chart_visible(self):
+        try:
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, self.First_RecruitCardClickViewAsChart))
+            )
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", element)
+            return element.is_displayed()
+        except:
+            return False
+
+
+    def capture_the_text_from_first_card_header(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, self.First_RecruitCardHeader))
+        )
+        return element.text
+
+    def capture_the_text_from_first_card_question(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located((By.XPATH, self.First_RecruitCardQuestion))
+        )
+        return element.text
+
+
+    def First_RC_HoverOn_I_Icon_Near_CQ(self):
+        Info_icon = WebDriverWait(self.driver,10).until(
+            EC.visibility_of_element_located((By.XPATH,self.First_RC_CardQuestion_Info_Icon))
+        )
+        ActionChains(self.driver).move_to_element(Info_icon).perform()
+        self.logger.info("***** successfully hover on Info icon*******")
+
+
+
+    def First_Recruit_Card_Click_On_Yes(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardIsThisHelpfulYes))
+        )
+        element.click()
+
+    def First_Recruit_Card_Click_On_No(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardIsThisHelpfulNo))
+        )
+        element.click()
+
+    def First_Recruit_Card_Click_Radio_Button_Yes(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardIsThisHelpfulYes_radio))
+        )
+        element.click()
+
+    def First_Recruit_Card_Click_Radio_Button_No(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardIsThisHelpfulNo_radio))
+        )
+        element.click()
+
+    def First_Recruit_Card_IsThisHelpful_SendInput(self, input_text):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardIsThisHelpfulMSG))
+        )
+        element.send_keys(input_text)
+
+    def First_Recruit_Card_IsThisHelpful_Submit(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardIsThisHelpfulSubmit))
+        )
+        element.click()
+
+    def First_Recruit_Card_IsThisHelpful_Cancel(self):
+        element = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, self.First_RecruitCardIsThisHelpfulCancel))
+        )
+        element.click()
+
 
     def click_on_show_me_more(self):
         element = WebDriverWait(self.driver, 10).until(
@@ -190,8 +359,6 @@ class ShowMeMore:
         )
         Open_Jobs_By_Worklocation_ViewChart.click()
 
-
-# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 
     def First_RC_SMMI_ApplicantByStageForOpenJobs_scroll_to_element(self):
